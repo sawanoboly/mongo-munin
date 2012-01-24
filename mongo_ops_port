@@ -13,7 +13,7 @@ except ImportError:
 
 portnum = int(sys.argv[0].split('_')[-1])
 
-def getServerStatus(portnum):
+def getServerStatus():
     host = os.environ.get("host", "127.0.0.1")
     port = portnum
     url = "http://%s:%d/_status" % (host, port)
@@ -30,12 +30,12 @@ def getServerStatus(portnum):
     return json.loads( raw )["serverStatus"]
 
 
-def doData(portnum):
-    ss = getServerStatus(portnum)
+def doData():
+    ss = getServerStatus()
     for k,v in ss["opcounters"].iteritems():
         print( str(k) + ".value " + str(v) )
 
-def doConfig(portnum):
+def doConfig():
 
     print "graph_title MongoDB " + str(portnum) + " ops"
     print "graph_args --base 1000 -l 0"
@@ -43,7 +43,7 @@ def doConfig(portnum):
     print "graph_category MongoDB"
     print "graph_total total"
 
-    for k in getServerStatus(portnum)["opcounters"]:
+    for k in getServerStatus()["opcounters"]:
         print k + ".label " + k
         print k + ".min 0"
         print k + ".type COUNTER"
@@ -52,8 +52,8 @@ def doConfig(portnum):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "config":
-        doConfig(portnum)
+        doConfig()
     else:
-        doData(portnum)
+        doData()
 
 
