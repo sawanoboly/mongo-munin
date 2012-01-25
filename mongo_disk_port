@@ -44,12 +44,10 @@ def doConfig():
     print "graph_category MongoDB"
     print "graph_total total"
     
-    i = 0
-    for k in getlistDatabases()["databases"]:
-        i = i + 1
+    for i, k in enumerate(getlistDatabases()["databases"]):
         print k["name"] + ".label " + k["name"]
         print k["name"] + ".min 0"
-        if i == 1:
+        if i == 0:
           print k["name"] + ".draw AREA"
         else:
           print k["name"] + ".draw STACK"
